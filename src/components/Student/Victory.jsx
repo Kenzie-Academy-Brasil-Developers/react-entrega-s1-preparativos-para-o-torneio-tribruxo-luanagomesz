@@ -1,6 +1,6 @@
 function VictoryCard({ student }) {
   return (
-    <div>
+    <div className="container-victory">
       <h1>{student.name} Venceu o torneio!</h1>
 
       <img

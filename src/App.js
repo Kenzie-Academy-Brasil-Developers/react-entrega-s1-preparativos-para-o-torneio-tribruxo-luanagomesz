@@ -13,20 +13,19 @@ function App() {
   const [displayVictory, setDisplayVictory] = useState("display-none");
   const [displayCards, setDisplayCards] = useState("container-cards");
 
-  useEffect(() => {
-    fetch("https://hp-api.herokuapp.com/api/characters/students")
-      .then((response) => response.json())
-      .then((response) => setStudents(response))
-      .then(() => filterStudents);
-  }, []);
-
-  const filterStudents = () => {
+  const filterStudents = (setstudent) => {
     setStudents(
-      Students.filter(
+      setstudent.filter(
         (mage) => mage.house !== "" && mage.image !== "" && mage.alive !== ""
       )
     );
   };
+
+  useEffect(() => {
+    fetch("https://hp-api.herokuapp.com/api/characters/students")
+      .then((response) => response.json())
+      .then((response) => filterStudents(response));
+  }, []);
 
   // Esta é a versão para entregar no prazo, mas estou trabalhando em outras funcionalidades (StudentActions)
   // O codigo estará com alguns comentarios, são as partes que eu estou trabalhando e não estão finalizadas
@@ -109,11 +108,15 @@ function App() {
           draggable
           pauseOnHover
         />
-        <SetStudentsDuel
-          students={Students}
-          showResult={displayVictory}
-          displayCards={displayCards}
-        />
+        {displayGame === "game" && Students.length > 5 ? (
+          <SetStudentsDuel
+            students={Students}
+            showResult={displayVictory}
+            displayCards={displayCards}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
